@@ -97,10 +97,21 @@ void insertRecord(struct HashType *hashTable, struct RecordType *record, int tab
 // index x -> id, name, order -> id, name, order ....
 void displayRecordsInHash(struct HashType *hashTable, int tableSize)
 {
-    // for each entry in the table
-        // print the contents in that index
-        // The output should look like this (for example): "Index 1 -> 21715, Q, 16 -> 28876, a, 26 -> NULL"
-}
+  for (int i = 0; i < tableSize; i++) {
+        printf("Index %d -> ", i);
+        if (hashTable[i].data == NULL) {
+            printf("NULL\n");
+        } else {
+            struct RecordType* curr = hashTable[i].data;
+            printf("%d, %c, %d", curr->id, curr->name, curr->order);
+            while (curr->next != NULL) {
+                curr = curr->next;
+                printf(" -> %d, %c, %d", curr->id, curr->name, curr->order);
+            }
+            printf(" -> NULL\n");
+        }
+    }  
+
 
 int main(void)
 {
@@ -110,13 +121,17 @@ int main(void)
     recordSz = parseData("input.txt", &pRecords);
     printRecords(pRecords, recordSz);
 
-    // Initialize the hash table
-    // create a variable hashTableSize and assign it a value
-    // initialize a hashTable, use calloc (so everything is assigned to NULL)
-    // for each record in pRecords, insert it into the hash table using the insertRecord function
-    // call the display records function
-    // free all the allocated memory
+    int hashTableSize = 10; // example size
+    struct HashType* hashTable = (struct HashType*)calloc(hashTableSize, sizeof(struct HashType));
+
+    for (int i = 0; i < recordSz; i++) {
+        insertRecord(hashTable, &pRecords[i], hashTableSize);
+    }
+
+    displayRecordsInHash(hashTable, hashTableSize);
+
     free(pRecords);
+    free(hashTable);
 
     return 0;
 }
