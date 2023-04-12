@@ -110,9 +110,9 @@ void displayRecordsInHash(struct HashType *hashTable, int tableSize)
             }
             printf(" -> NULL\n");
         }
-    }  
+    }
 
-
+}
 int main(void)
 {
     struct RecordType *pRecords;
